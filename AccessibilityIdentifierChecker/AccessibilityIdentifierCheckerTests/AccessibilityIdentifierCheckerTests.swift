@@ -48,22 +48,25 @@ class AccessibilityIdentifierCheckerTests: XCTestCase {
         XCTAssert(loggedViews.index(where: { $0 === view }) != nil)
     }
     
-//    func testNoReferencesToViews() {
-//        var view = UIButton()
-//        let checker = makeChecker(rootViewProvider: { view })
-//        
-//        checker.start()
-//        scheduledWork?()
-//        
-//        weak var weakView = view
-//        view = UIButton()
-//        
-//        XCTAssertNil(weakView)
-//    }
+    func testViewLeaks() {
+        var view = UIButton()
+        weak var weakView = view
+        let checker = makeChecker(rootViewProvider: { weakView })
+        
+        checker.start()
+        scheduledWork?()
+        
+        loggedViews = []
+        view = UIButton()
+        
+        XCTAssertNil(weakView)
+    }
     
-    // Test no reference cycle
     // Test complex tree
     // Test custom classes
+    // Test reschedule
+    // Test schedule intervals
+    // Test other views
     
     private func makeChecker(rootViewProvider: @escaping RootViewProvider) -> AccessibilityIdentifierChecker {
         return AccessibilityIdentifierChecker(rootViewProvider: rootViewProvider,

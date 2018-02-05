@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6C20ADFF2028964900E7F51F /* AccessibilityIdentifierChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C20ADFE2028964900E7F51F /* AccessibilityIdentifierChecker.swift */; };
+		6C20AE032028A7BE00E7F51F /* WeakViewRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C20AE022028A7BE00E7F51F /* WeakViewRef.swift */; };
 		6CB0728C202893D600935074 /* AccessibilityIdentifierChecker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CB07282202893D600935074 /* AccessibilityIdentifierChecker.framework */; };
 		6CB07291202893D600935074 /* AccessibilityIdentifierCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB07290202893D600935074 /* AccessibilityIdentifierCheckerTests.swift */; };
 		6CB07293202893D600935074 /* AccessibilityIdentifierChecker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CB07285202893D600935074 /* AccessibilityIdentifierChecker.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		6C20ADFE2028964900E7F51F /* AccessibilityIdentifierChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifierChecker.swift; sourceTree = "<group>"; };
+		6C20AE022028A7BE00E7F51F /* WeakViewRef.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakViewRef.swift; sourceTree = "<group>"; };
 		6CB07282202893D600935074 /* AccessibilityIdentifierChecker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AccessibilityIdentifierChecker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CB07285202893D600935074 /* AccessibilityIdentifierChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessibilityIdentifierChecker.h; sourceTree = "<group>"; };
 		6CB07286202893D600935074 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				6CB07285202893D600935074 /* AccessibilityIdentifierChecker.h */,
 				6CB07286202893D600935074 /* Info.plist */,
 				6C20ADFE2028964900E7F51F /* AccessibilityIdentifierChecker.swift */,
+				6C20AE022028A7BE00E7F51F /* WeakViewRef.swift */,
 			);
 			path = AccessibilityIdentifierChecker;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C20AE032028A7BE00E7F51F /* WeakViewRef.swift in Sources */,
 				6C20ADFF2028964900E7F51F /* AccessibilityIdentifierChecker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
