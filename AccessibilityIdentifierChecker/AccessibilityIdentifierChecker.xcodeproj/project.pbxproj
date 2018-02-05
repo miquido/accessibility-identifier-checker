@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C20ADFF2028964900E7F51F /* AccessibilityIdentifierChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C20ADFE2028964900E7F51F /* AccessibilityIdentifierChecker.swift */; };
 		6CB0728C202893D600935074 /* AccessibilityIdentifierChecker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CB07282202893D600935074 /* AccessibilityIdentifierChecker.framework */; };
 		6CB07291202893D600935074 /* AccessibilityIdentifierCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB07290202893D600935074 /* AccessibilityIdentifierCheckerTests.swift */; };
 		6CB07293202893D600935074 /* AccessibilityIdentifierChecker.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CB07285202893D600935074 /* AccessibilityIdentifierChecker.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6C20ADFE2028964900E7F51F /* AccessibilityIdentifierChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifierChecker.swift; sourceTree = "<group>"; };
 		6CB07282202893D600935074 /* AccessibilityIdentifierChecker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AccessibilityIdentifierChecker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CB07285202893D600935074 /* AccessibilityIdentifierChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccessibilityIdentifierChecker.h; sourceTree = "<group>"; };
 		6CB07286202893D600935074 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			children = (
 				6CB07285202893D600935074 /* AccessibilityIdentifierChecker.h */,
 				6CB07286202893D600935074 /* Info.plist */,
+				6C20ADFE2028964900E7F51F /* AccessibilityIdentifierChecker.swift */,
 			);
 			path = AccessibilityIdentifierChecker;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 				TargetAttributes = {
 					6CB07281202893D600935074 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Manual;
 					};
 					6CB0728A202893D600935074 = {
@@ -196,6 +200,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C20ADFF2028964900E7F51F /* AccessibilityIdentifierChecker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +339,7 @@
 		6CB07297202893D600935074 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
@@ -348,6 +354,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -356,6 +363,7 @@
 		6CB07298202893D600935074 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
@@ -378,6 +386,7 @@
 		6CB0729A202893D600935074 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = AccessibilityIdentifierCheckerTests/Info.plist;
@@ -393,6 +402,7 @@
 		6CB0729B202893D600935074 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = AccessibilityIdentifierCheckerTests/Info.plist;

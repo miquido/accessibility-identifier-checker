@@ -7,30 +7,68 @@
 //
 
 import XCTest
-@testable import AccessibilityIdentifierChecker
+import AccessibilityIdentifierChecker
 
 class AccessibilityIdentifierCheckerTests: XCTestCase {
     
+    private var loggedViews: [UIView] = []
+    private func viewLogger(view: UIView) {
+        loggedViews.append(view)
+    }
+    
+    private var scheduledWork: (()->Void)? = nil
+    private func scheduler(timeInterval: TimeInterval, work: @escaping ()->Void) {
+        scheduledWork = work
+    }
+    
     override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        scheduledWork = nil
+        loggedViews = []
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testNotScheduled() {
+        let view = UIButton()
+        let checker = makeChecker(rootViewProvider: { view })
+        
+        checker.start()
+        
+        XCTAssertEqual(0, loggedViews.count)
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testMultipleCalls() {
+        let view = UIButton()
+        let checker = makeChecker(rootViewProvider: { view })
+        
+        checker.start()
+        scheduledWork?()
+        scheduledWork?()
+        scheduledWork?()
+        
+        XCTAssertEqual(1, loggedViews.count)
+        XCTAssert(loggedViews.index(where: { $0 === view }) != nil)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+//    func testNoReferencesToViews() {
+//        var view = UIButton()
+//        let checker = makeChecker(rootViewProvider: { view })
+//        
+//        checker.start()
+//        scheduledWork?()
+//        
+//        weak var weakView = view
+//        view = UIButton()
+//        
+//        XCTAssertNil(weakView)
+//    }
+    
+    // Test no reference cycle
+    // Test complex tree
+    // Test custom classes
+    
+    private func makeChecker(rootViewProvider: @escaping RootViewProvider) -> AccessibilityIdentifierChecker {
+        return AccessibilityIdentifierChecker(rootViewProvider: rootViewProvider,
+                                              viewLogger: viewLogger,
+                                              scheduler: scheduler)
     }
     
 }
