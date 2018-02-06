@@ -36,7 +36,7 @@ public class AccessibilityIdentifierChecker {
     ]
     
     public static func defaultRootViewProvider() -> UIView? {
-        return UIApplication.shared.delegate?.window??.rootViewController?.view
+        return UIApplication.shared.keyWindow?.rootViewController?.view
     }
     
     public static func defaultViewLogger(view: UIView) {
