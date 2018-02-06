@@ -45,7 +45,7 @@ class AccessibilityIdentifierCheckerTests: XCTestCase {
         scheduledWork?()
         
         XCTAssertEqual(1, loggedViews.count)
-        XCTAssert(loggedViews.index(where: { $0 === view }) != nil)
+        XCTAssert(wasLogged(view: view))
     }
     
     func testViewLeaks() {
@@ -62,7 +62,27 @@ class AccessibilityIdentifierCheckerTests: XCTestCase {
         XCTAssertNil(weakView)
     }
     
-    // Test complex tree
+    func testComplexTree() {
+        let rootView = UIView()
+        let button1 = UIButton()
+        let view1 = UIView()
+        let button2 = UIButton()
+        
+        rootView.addSubview(button1)
+        rootView.addSubview(view1)
+        
+        view1.addSubview(button2)
+        
+        let checker = makeChecker(rootViewProvider: { rootView })
+        
+        checker.start()
+        scheduledWork?()
+        
+        XCTAssertEqual(2, loggedViews.count)
+        XCTAssert(wasLogged(view: button1))
+        XCTAssert(wasLogged(view: button2))
+    }
+    
     // Test custom classes
     // Test reschedule
     // Test schedule intervals
@@ -72,6 +92,10 @@ class AccessibilityIdentifierCheckerTests: XCTestCase {
         return AccessibilityIdentifierChecker(rootViewProvider: rootViewProvider,
                                               viewLogger: viewLogger,
                                               scheduler: scheduler)
+    }
+    
+    private func wasLogged(view: UIView) -> Bool {
+        return loggedViews.index(where: { $0 === view }) != nil
     }
     
 }
