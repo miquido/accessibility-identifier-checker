@@ -6,7 +6,7 @@
 //  Copyright © 2018 Miquido. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public typealias RootViewProvider = () -> UIView?
 public typealias ViewLogger = (UIView) -> Void
