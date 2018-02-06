@@ -17,13 +17,18 @@ class AccessibilityIdentifierCheckerTests: XCTestCase {
     }
     
     private var scheduledWork: (()->Void)? = nil
+    private var passedIntervalsToScheduler: [TimeInterval] = []
     private func scheduler(timeInterval: TimeInterval, work: @escaping ()->Void) {
+        passedIntervalsToScheduler.append(timeInterval)
         scheduledWork = work
     }
     
+    private let interval: TimeInterval = 5.0
+    
     override func setUp() {
-        scheduledWork = nil
         loggedViews = []
+        scheduledWork = nil
+        passedIntervalsToScheduler = []
     }
     
     func testNotScheduled() {
@@ -83,15 +88,27 @@ class AccessibilityIdentifierCheckerTests: XCTestCase {
         XCTAssert(wasLogged(view: button2))
     }
     
+    func testReschedule() {
+        let view = UIView()
+        
+        let checker = makeChecker(rootViewProvider: { view })
+        checker.start()
+        
+        XCTAssertEqual([0.0], passedIntervalsToScheduler)
+        
+        scheduledWork?()
+        
+        XCTAssertEqual([0.0, interval], passedIntervalsToScheduler)
+    }
+    
     // Test custom classes
-    // Test reschedule
-    // Test schedule intervals
     // Test other views
     
     private func makeChecker(rootViewProvider: @escaping RootViewProvider) -> AccessibilityIdentifierChecker {
         return AccessibilityIdentifierChecker(rootViewProvider: rootViewProvider,
                                               viewLogger: viewLogger,
-                                              scheduler: scheduler)
+                                              scheduler: scheduler,
+                                              interval: interval)
     }
     
     private func wasLogged(view: UIView) -> Bool {

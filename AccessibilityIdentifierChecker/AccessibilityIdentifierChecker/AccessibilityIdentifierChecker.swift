@@ -17,33 +17,36 @@ public class AccessibilityIdentifierChecker {
     private let rootViewProvider: RootViewProvider
     private let viewLogger: ViewLogger
     private let scheduler: Scheduler
+    private let interval: TimeInterval
     private var loggedViews: Set<WeakViewRef> = []
     
     public init(rootViewProvider: @escaping RootViewProvider,
                 viewLogger: @escaping ViewLogger,
-                scheduler: @escaping Scheduler) {
+                scheduler: @escaping Scheduler,
+                interval: TimeInterval) {
         self.rootViewProvider = rootViewProvider
         self.viewLogger = viewLogger
         self.scheduler = scheduler
+        self.interval = interval
     }
     
     public func start() {
-        checkAccessibilityIdentifiers(delay: 0.0)
+        runCheck(afterDelay: 0.0)
     }
 
-    private func checkAccessibilityIdentifiers(delay: TimeInterval) {
+    private func runCheck(afterDelay delay: TimeInterval) {
         scheduler(delay) {
             guard let rootView = self.rootViewProvider() else {
                 return
             }
 
-            self.checkAccessibilityIdentifiers(view: rootView)
+            self.check(view: rootView)
 
-            self.checkAccessibilityIdentifiers(delay: 5.0)
+            self.runCheck(afterDelay: self.interval)
         }
     }
 
-    private func checkAccessibilityIdentifiers(view: UIView) {
+    private func check(view: UIView) {
         if isInteractive(view: view) && (view.accessibilityIdentifier == nil || view.accessibilityIdentifier == "") {
             if !loggedViews.contains(WeakViewRef(value: view)) {
                 viewLogger(view)
@@ -52,7 +55,7 @@ public class AccessibilityIdentifierChecker {
         }
 
         view.subviews.forEach { (subview) in
-            checkAccessibilityIdentifiers(view: subview)
+            check(view: subview)
         }
     }
 
