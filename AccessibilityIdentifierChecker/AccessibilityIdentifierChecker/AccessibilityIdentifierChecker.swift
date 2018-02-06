@@ -21,6 +21,20 @@ public class AccessibilityIdentifierChecker {
     private let customViewClasses: [UIView.Type]
     private var loggedViews: Set<WeakViewRef> = []
     
+    private let standardViewClasses: [UIView.Type] = [
+        UIControl.self,
+        UITextView.self,
+        UINavigationBar.self,
+        UISearchBar.self,
+        UIToolbar.self,
+        UITabBar.self
+    ]
+    
+    private let nonTraversableViews: [UIView.Type] = [
+        UIStepper.self,
+        UISearchBar.self
+    ]
+    
     public init(rootViewProvider: @escaping RootViewProvider,
                 viewLogger: @escaping ViewLogger,
                 scheduler: @escaping Scheduler,
@@ -57,19 +71,31 @@ public class AccessibilityIdentifierChecker {
             }
         }
 
-        view.subviews.forEach { (subview) in
-            check(view: subview)
+        if shouldCheckSubviews(of: view) {
+            view.subviews.forEach { (subview) in
+                check(view: subview)
+            }
         }
     }
 
     private func shouldCheck(view: UIView) -> Bool {
-        for customViewClass in customViewClasses {
-            if view.isKind(of: customViewClass) {
+        for viewClass in customViewClasses {
+            if view.isKind(of: viewClass) {
                 return true
             }
         }
         
-        return view is UIButton // TODO
+        for viewClass in standardViewClasses {
+            if view.isKind(of: viewClass) {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    private func shouldCheckSubviews(of view: UIView) -> Bool {
+        return !nonTraversableViews.contains(where: { view.isKind(of: $0) })
     }
     
 }

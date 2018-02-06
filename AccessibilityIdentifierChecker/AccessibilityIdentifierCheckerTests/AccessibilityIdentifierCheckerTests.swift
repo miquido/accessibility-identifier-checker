@@ -122,7 +122,57 @@ class AccessibilityIdentifierCheckerTests: XCTestCase {
         XCTAssert(wasLogged(view: secondCustomView))
     }
     
-    // Test other views
+    func testOtherViews() {
+        let view = UIView()
+        
+        let button = UIButton()
+        let datePicker = UIDatePicker()
+        let pageControl = UIPageControl()
+        let segmentedControl = UISegmentedControl()
+        let slider = UISlider()
+        let stepper = UIStepper()
+        let switchView = UISwitch()
+        let textField = UITextField()
+        let textView = UITextView()
+        let navigationBar = UINavigationBar()
+        let searchBar = UISearchBar()
+        let toolbar = UIToolbar()
+        let tabBar = UITabBar()
+        
+        view.addSubview(button)
+        view.addSubview(datePicker)
+        view.addSubview(pageControl)
+        view.addSubview(segmentedControl)
+        view.addSubview(slider)
+        view.addSubview(stepper)
+        view.addSubview(switchView)
+        view.addSubview(textField)
+        view.addSubview(textView)
+        view.addSubview(navigationBar)
+        view.addSubview(searchBar)
+        view.addSubview(toolbar)
+        view.addSubview(tabBar)
+        
+        let checker = makeChecker(rootViewProvider: { view })
+        checker.start()
+        scheduledWork?()
+        
+        XCTAssertEqual(13, loggedViews.count)
+        XCTAssert(wasLogged(view: button))
+        XCTAssert(wasLogged(view: datePicker))
+        XCTAssert(wasLogged(view: pageControl))
+        XCTAssert(wasLogged(view: segmentedControl))
+        XCTAssert(wasLogged(view: slider))
+        XCTAssert(wasLogged(view: stepper))
+        XCTAssert(wasLogged(view: switchView))
+        XCTAssert(wasLogged(view: textField))
+        XCTAssert(wasLogged(view: textView))
+        XCTAssert(wasLogged(view: navigationBar))
+        XCTAssert(wasLogged(view: searchBar))
+        XCTAssert(wasLogged(view: toolbar))
+        XCTAssert(wasLogged(view: tabBar))
+    }
+    
     // Test correct id
     
     private func makeChecker(rootViewProvider: @escaping RootViewProvider,
