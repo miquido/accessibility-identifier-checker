@@ -1,0 +1,16 @@
+PODS:
+  - AccessibilityIdentifierChecker (0.0.1)
+
+DEPENDENCIES:
+  - AccessibilityIdentifierChecker (from `../AccessibilityIdentifierChecker`)
+
+EXTERNAL SOURCES:
+  AccessibilityIdentifierChecker:
+    :path: ../AccessibilityIdentifierChecker
+
+SPEC CHECKSUMS:
+  AccessibilityIdentifierChecker: 0cab751edb0117c49763d71dd7a13f1f792c7197
+
+PODFILE CHECKSUM: 9c42498f6f5adf7b74c28417dd53d8b3e7fb691d
+
+COCOAPODS: 1.3.1
