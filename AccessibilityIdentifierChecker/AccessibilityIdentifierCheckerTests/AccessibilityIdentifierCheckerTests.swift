@@ -40,6 +40,36 @@ class AccessibilityIdentifierCheckerTests: XCTestCase {
         XCTAssertEqual(0, loggedViews.count)
     }
     
+    func testCorrectId() {
+        let view = UIButton()
+        view.accessibilityIdentifier = "correct id"
+        let checker = makeChecker(rootViewProvider: { view })
+        
+        checker.start()
+        scheduledWork?()
+        
+        XCTAssertEqual(0, loggedViews.count)
+    }
+    
+    func testNullAndEmptyId() {
+        let view = UIView()
+        let buttonEmpty = UIButton()
+        buttonEmpty.accessibilityIdentifier = ""
+        let buttonNil = UIButton()
+        buttonNil.accessibilityIdentifier = nil
+        view.addSubview(buttonEmpty)
+        view.addSubview(buttonNil)
+        
+        let checker = makeChecker(rootViewProvider: { view })
+        
+        checker.start()
+        scheduledWork?()
+        
+        XCTAssertEqual(2, loggedViews.count)
+        XCTAssert(wasLogged(view: buttonEmpty))
+        XCTAssert(wasLogged(view: buttonNil))
+    }
+    
     func testMultipleCalls() {
         let view = UIButton()
         let checker = makeChecker(rootViewProvider: { view })
@@ -172,8 +202,6 @@ class AccessibilityIdentifierCheckerTests: XCTestCase {
         XCTAssert(wasLogged(view: toolbar))
         XCTAssert(wasLogged(view: tabBar))
     }
-    
-    // Test correct id
     
     private func makeChecker(rootViewProvider: @escaping RootViewProvider,
                              customViewClasses: [UIView.Type] = []) -> AccessibilityIdentifierChecker {
