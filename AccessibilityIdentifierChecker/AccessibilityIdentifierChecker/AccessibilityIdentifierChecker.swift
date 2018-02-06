@@ -18,16 +18,19 @@ public class AccessibilityIdentifierChecker {
     private let viewLogger: ViewLogger
     private let scheduler: Scheduler
     private let interval: TimeInterval
+    private let customViewClasses: [UIView.Type]
     private var loggedViews: Set<WeakViewRef> = []
     
     public init(rootViewProvider: @escaping RootViewProvider,
                 viewLogger: @escaping ViewLogger,
                 scheduler: @escaping Scheduler,
-                interval: TimeInterval) {
+                interval: TimeInterval,
+                customViewClasses: [UIView.Type]) {
         self.rootViewProvider = rootViewProvider
         self.viewLogger = viewLogger
         self.scheduler = scheduler
         self.interval = interval
+        self.customViewClasses = customViewClasses
     }
     
     public func start() {
@@ -47,7 +50,7 @@ public class AccessibilityIdentifierChecker {
     }
 
     private func check(view: UIView) {
-        if isInteractive(view: view) && (view.accessibilityIdentifier == nil || view.accessibilityIdentifier == "") {
+        if shouldCheck(view: view) && (view.accessibilityIdentifier == nil || view.accessibilityIdentifier == "") {
             if !loggedViews.contains(WeakViewRef(value: view)) {
                 viewLogger(view)
                 loggedViews.insert(WeakViewRef(value: view))
@@ -59,7 +62,13 @@ public class AccessibilityIdentifierChecker {
         }
     }
 
-    private func isInteractive(view: UIView) -> Bool {
+    private func shouldCheck(view: UIView) -> Bool {
+        for customViewClass in customViewClasses {
+            if view.isKind(of: customViewClass) {
+                return true
+            }
+        }
+        
         return view is UIButton // TODO
     }
     

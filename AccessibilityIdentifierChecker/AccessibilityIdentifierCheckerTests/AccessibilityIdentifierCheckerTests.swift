@@ -101,14 +101,37 @@ class AccessibilityIdentifierCheckerTests: XCTestCase {
         XCTAssertEqual([0.0, interval], passedIntervalsToScheduler)
     }
     
-    // Test custom classes
-    // Test other views
+    func testCustomViews() {
+        class FirstCustomView: UIView {}
+        class SecondCustomView: UIView {}
+        
+        let view = UIView()
+        let firstCustomView = FirstCustomView()
+        let secondCustomView = SecondCustomView()
+        
+        view.addSubview(firstCustomView)
+        view.addSubview(secondCustomView)
+        
+        let checker = makeChecker(rootViewProvider: { view },
+                                  customViewClasses: [FirstCustomView.self, SecondCustomView.self])
+        checker.start()
+        scheduledWork?()
+        
+        XCTAssertEqual(2, loggedViews.count)
+        XCTAssert(wasLogged(view: firstCustomView))
+        XCTAssert(wasLogged(view: secondCustomView))
+    }
     
-    private func makeChecker(rootViewProvider: @escaping RootViewProvider) -> AccessibilityIdentifierChecker {
+    // Test other views
+    // Test correct id
+    
+    private func makeChecker(rootViewProvider: @escaping RootViewProvider,
+                             customViewClasses: [UIView.Type] = []) -> AccessibilityIdentifierChecker {
         return AccessibilityIdentifierChecker(rootViewProvider: rootViewProvider,
                                               viewLogger: viewLogger,
                                               scheduler: scheduler,
-                                              interval: interval)
+                                              interval: interval,
+                                              customViewClasses: customViewClasses)
     }
     
     private func wasLogged(view: UIView) -> Bool {
