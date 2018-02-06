@@ -2,6 +2,12 @@
 
 A small library that warns you about missing accessibility identifiers
 
+### Installation
+
+**CocoaPods**
+
+Add the line `pod "AccessibilityIdentifierChecker", :git => "https://github.com/miquido/accessibility-identifier-checker.git"` to your `Podfile`
+
 ### Basic usage
 
 To use just put following code in your `application(_:didFinishLaunchingWithOptions:)`:
@@ -17,11 +23,15 @@ By default the key window will be traversed every 5 seconds and for every view w
 
 ```Missing accessibilityIdentifier: <UIButton: 0x7fb66a402c60; frame = (0 38; 200 30); opaque = NO; autoresize = RM+BM; layer = <CALayer: 0x608000024760>>```
 
-### Installation
+### How to find view
 
-**CocoaPods**
+To easilly find view in your running app:
+1. Copy address of view from the Console
+2. Open "Debug View Hierarchy"
+3. Select "Debug Navigator" tab
+4. Paste address into filter textbox
 
-Add the line `pod "AccessibilityIdentifierChecker", :git => "https://github.com/miquido/accessibility-identifier-checker.git"` to your `Podfile`
+![Alt text](how_to_find_view_by_address.png "How to find view by address")
 
 ### Advanced configuration
 
