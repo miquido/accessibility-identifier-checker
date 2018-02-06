@@ -10,7 +10,7 @@ import Foundation
 
 public typealias RootViewProvider = () -> UIView?
 public typealias ViewLogger = (UIView) -> Void
-public typealias Scheduler = (TimeInterval, @escaping () -> Swift.Void) -> Void
+public typealias Scheduler = (TimeInterval, @escaping () -> Void) -> Void
 
 public class AccessibilityIdentifierChecker {
     
@@ -35,11 +35,25 @@ public class AccessibilityIdentifierChecker {
         UISearchBar.self
     ]
     
-    public init(rootViewProvider: @escaping RootViewProvider,
-                viewLogger: @escaping ViewLogger,
-                scheduler: @escaping Scheduler,
-                interval: TimeInterval,
-                customViewClasses: [UIView.Type]) {
+    public static func defaultRootViewProvider() -> UIView? {
+        return UIApplication.shared.delegate?.window??.rootViewController?.view
+    }
+    
+    public static func defaultViewLogger(view: UIView) {
+        print("Missing accessibilityIdentifier: \(view)")
+    }
+    
+    public static func defaultScheduler(delay: TimeInterval, work: @escaping () -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            work()
+        }
+    }
+    
+    public init(rootViewProvider: @escaping RootViewProvider = AccessibilityIdentifierChecker.defaultRootViewProvider,
+                viewLogger: @escaping ViewLogger = AccessibilityIdentifierChecker.defaultViewLogger,
+                scheduler: @escaping Scheduler = AccessibilityIdentifierChecker.defaultScheduler,
+                interval: TimeInterval = 5.0,
+                customViewClasses: [UIView.Type] = []) {
         self.rootViewProvider = rootViewProvider
         self.viewLogger = viewLogger
         self.scheduler = scheduler
