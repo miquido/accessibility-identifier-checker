@@ -93,19 +93,8 @@ public class AccessibilityIdentifierChecker {
     }
 
     private func shouldCheck(view: UIView) -> Bool {
-        for viewClass in customViewClasses {
-            if view.isKind(of: viewClass) {
-                return true
-            }
-        }
-        
-        for viewClass in standardViewClasses {
-            if view.isKind(of: viewClass) {
-                return true
-            }
-        }
-        
-        return false
+        return customViewClasses.contains(where: { view.isKind(of: $0) }) ||
+            standardViewClasses.contains(where: { view.isKind(of: $0) })
     }
     
     private func shouldCheckSubviews(of view: UIView) -> Bool {
